@@ -132,7 +132,7 @@ import { actualPlatform } from "@/lib/platform";
 const { mode = "custom", provider } = defineProps<{ mode?: "builtin" | "custom"; provider?: MediaProvider }>();
 const visible = defineModel<boolean>({ default: false });
 const emit = defineEmits<{ added: [provider: MediaProvider]; saved: [provider: MediaProvider] }>();
-const providerSources: Record<string, string> = { apiMart: apiMartSource, metaso: metasoSource, compshare: compshareSource };
+const providerSources: Record<string, string> = { apiMart: apiMartSource, metaso: metasoSource, compshare: compshareSource, h3Local: h3LocalSource };
 const selectedProvider = ref<string>(mediaProviders[0]?.id ?? "");
 const activeProvider = computed(() => mediaProviders.find(provider => provider.id === selectedProvider.value));
 const models = computed<MediaProvider["models"]>(() => activeProvider.value?.models ?? []);
