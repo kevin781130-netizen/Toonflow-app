@@ -1,6 +1,6 @@
 import { t, translateMessage, validationOptions } from "@/lib/i18n";
 
-import { createHash } from "node:crypto";
+import { createHash, webcrypto } from "node:crypto";
 import { lstat, mkdir, readFile, readdir, unlink, writeAtomicSync } from "@toonflow/file";
 import { dirname, join } from "node:path";
 import { createContext, SourceTextModule } from "node:vm";
