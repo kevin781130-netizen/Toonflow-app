@@ -122,6 +122,7 @@ import { invalidateNodeModels } from "@toonflow/nodes-scaffold/nodeAi";
 import apiMartSource from "@toonflow/providers/media/apiMart?raw";
 import metasoSource from "@toonflow/providers/media/metaso?raw";
 import compshareSource from "@toonflow/providers/media/compshare?raw";
+import h3LocalSource from "@toonflow/providers/media/h3Local?raw";
 import type { MediaProvider } from "@toonflow/provider-web/types";
 import { providerPrompt } from "./providerPrompt";
 import { modelChoices, saveSettings } from "@/stores/settings";
