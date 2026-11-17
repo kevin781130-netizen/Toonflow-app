@@ -477,11 +477,12 @@ nodeTools.register({
     const resolution = args.resolution ?? (resolutions.includes(data.value.resolution) ? data.value.resolution : resolutions[0] ?? "");
     if (args.mode !== undefined && !getMatchingModes(choice).some((item) => JSON.stringify(item) === JSON.stringify(args.mode))) throw new Error("所选模式不受当前模型支持或不适用于当前引用，请根据模型能力及已连接素材选择");
     if (args.generateAudio !== undefined && choice.audio !== "optional" && args.generateAudio !== (choice.audio === true)) throw new Error("当前模型不支持切换声音，请查看 getConfig 返回的 audio 能力");
+    // Validate before mutating the node so a rejected ratio edit is atomic.
+    if (args.ratio !== undefined && choice.videoRatioControl === "template") throw new Error("当前模型的画面比例由工作流模板决定，不支持更改比例");
     const other = getModelFormValues(choice, choice === selectedModel.value ? data.value.other : {}, args.other);
     data.value.model = getNodeModelKey(choice);
     data.value.duration = duration;
     data.value.resolution = resolution;
-    if (args.ratio !== undefined && choice.videoRatioControl === "template") throw new Error("当前模型的画面比例由工作流模板决定，不支持更改比例");
     if (args.ratio !== undefined) data.value.ratio = args.ratio;
     if (args.mode !== undefined) data.value.mode = JSON.stringify(args.mode);
     if (args.generateAudio !== undefined) data.value.generateAudio = args.generateAudio;
