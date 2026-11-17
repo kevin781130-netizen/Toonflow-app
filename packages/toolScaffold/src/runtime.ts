@@ -89,6 +89,8 @@ export interface MediaModel {
   imageSizes?: string[];
   imageRatios?: string[];
   durationResolutionMap?: { duration: number[]; resolution: string[] }[];
+  /** No generic aspect-ratio control; native video workflow owns the output ratio. */
+  videoRatioControl?: "template";
   audio?: boolean | "optional";
   voices?: { title: string; voice: string }[];
 }
