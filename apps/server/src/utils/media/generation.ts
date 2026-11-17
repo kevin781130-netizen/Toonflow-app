@@ -72,6 +72,8 @@ export async function listMediaModels(): Promise<MediaModel[]> {
       supportsPrice: "supportsPrice" in provider && provider.supportsPrice === true,
       rules: model.rules,
       mode: model.mode, durationResolutionMap: model.durationResolutionMap, audio: model.audio,
+      // Generic capability: a provider's verified video template owns its ratio.
+      ...(model.type === "video" && model.videoRatioControl === "template" ? { videoRatioControl: "template" as const } : {}),
       ...(model.type === "audio" ? { voices: model.voices } : {}),
       ...(model.type === "image" ? {
         imageSizes: imageOptions(Array.isArray(model.imageSizes) ? model.imageSizes : builtIn?.imageSizes, /^[^\u0000-\u001f\u007f]+$/),
