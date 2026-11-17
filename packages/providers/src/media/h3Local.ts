@@ -1,8 +1,8 @@
 /**
  * Toonflow media Provider adapter for an independently hosted H3 Director.
  *
- * This file is deliberately staged outside Toonflow while the user's fork is
- * archived. Copy into Toonflow packages/providers/src/media/ only after review.
+ * A standalone Provider: no cross-repo imports and no startup side effects.
+ * Optional installation is managed by Toonflow's own media Provider UI.
  * Uses only existing H3 project, native Take and verified-media APIs.
  */
 const rules = [
@@ -246,10 +246,10 @@ async function awaitVerifiedResult(ctx: H3Context, receipt: Receipt): Promise<Me
 export default {
   id: 'h3Local',
   label: 'Local H3 Director (verified output only)',
-  version: '0.2.0-native-take',
-  readme: 'Local H3 Director: native Take submission and explicit media verification. Text-only 4–15s; verified ComfyUI template required.',
+  version: '0.2.1-template-ratio',
+  readme: 'Local H3 Director: native Take and explicit media verification. Text-only 4–15s. Aspect ratio belongs to the verified H3 workflow template (no UI ratio override); activate H3_TOONFLOW_INTEGRATION=1 on the H3 host.',
   rules,
-  models: [{ id: PACK_ID, label: 'H3 Native Shot', type: 'video', mode: ['text'], durationResolutionMap: [{ duration: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], resolution: [] }] }],
+  models: [{ id: 'h3-native-shot', label: 'H3 Native Shot', type: 'video', mode: ['text'], videoRatioControl: 'template', durationResolutionMap: [{ duration: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], resolution: [] }] }],
   async generateVideo(request: VideoRequest): Promise<MediaAsset[]> {
     const base = localUrl(this.config);
     if (request.model !== PACK_ID || typeof request.prompt !== 'string' || !request.prompt.trim() || request.prompt.length > 6000) {
