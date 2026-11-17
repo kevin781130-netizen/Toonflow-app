@@ -2,8 +2,8 @@
   <el-popover v-model:visible="settingsVisible" trigger="click" placement="top-start" width="min(340px, calc(100vw - 24px))" :disabled="disabled" :showArrow="false" :popperStyle="{ padding: '14px' }">
     <template #reference>
       <el-button class="settingsButton" text size="small" :disabled="disabled" :aria-expanded="settingsVisible" aria-label="视频生成设置">
-        <span class="ratioShape" :style="ratioStyle(ratio)" aria-hidden="true" />
-        <span>{{ [ratio, resolution, duration ? `${duration}秒` : ''].filter(Boolean).join(' · ') }}</span>
+        <span v-if="model?.videoRatioControl !== 'template'" class="ratioShape" :style="ratioStyle(ratio)" aria-hidden="true" />
+        <span>{{ [model?.videoRatioControl === 'template' ? '模板比例' : ratio, resolution, duration ? `${duration}秒` : ''].filter(Boolean).join(' · ') }}</span>
         <component :is="settingsVisible ? IconChevronDown : IconChevronUp" :size="14" aria-hidden="true" />
       </el-button>
     </template>
@@ -26,6 +26,8 @@
           </el-select>
         </div>
       </div>
+      <div v-if="model?.videoRatioControl === 'template'" class="sectionLabel">画面比例由已验证的视频工作流模板决定</div>
+      <template v-else>
       <div class="sectionLabel">通用比例</div>
       <div class="ratioOptions" role="group" aria-label="视频比例">
         <el-button v-for="item in ratios" :key="item" class="ratioButton" :disabled="disabled" :aria-label="`比例 ${item}`" :aria-pressed="ratio === item" @click="ratio = item">
@@ -35,6 +37,7 @@
           </span>
         </el-button>
       </div>
+      </template>
       <div v-if="model?.audio === 'optional'" class="audioOption">
         <span class="sectionLabel">生成音频</span>
         <el-switch v-model="generateAudio" :disabled="disabled" aria-label="生成音频" />
