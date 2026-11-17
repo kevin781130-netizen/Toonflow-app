@@ -126,15 +126,18 @@ async function retrieveVerifiedVideo(ctx: H3Context, base: URL, take: CompletedT
 }
 
 async function ensureNativePreflight(ctx: H3Context, base: URL, signal: AbortSignal): Promise<void> {
-  const [preflight, status] = await Promise.all([
+  // Check optional integration availability BEFORE any GPU or project write.
+  const [preflight, status, bridge] = await Promise.all([
     json(ctx, base, `/api/workflows/packs/${PACK_ID}/validate`, signal),
     json(ctx, base, '/api/h3/status', signal),
+    json(ctx, base, '/api/integrations/toonflow/health', signal),
   ]);
   const validation = preflight.validation as Record<string, unknown> | undefined;
   const pack = preflight.pack as Record<string, unknown> | undefined;
   const template = pack?.template as Record<string, unknown> | undefined;
   if (preflight.schema_live !== true || validation?.ok !== true || template?.bound !== true
-    || status.online !== true || status.h3_available !== true || status.template_bound !== true) {
+    || status.online !== true || status.h3_available !== true || status.template_bound !== true
+    || bridge.integration !== 'toonflow' || bridge.enabled !== true || bridge.contract !== 'native_take_v1') {
     throw new Error('H3 native workflow is not verified and online');
   }
 }
