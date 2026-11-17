@@ -22,6 +22,8 @@ interface ProviderModel<TRules extends readonly ProviderFormRule[] = readonly Pr
   imageSizes?: string[];
   imageRatios?: string[];
   durationResolutionMap?: { duration: number[]; resolution: string[] }[];
+  /** Video aspect ratio is fixed by provider's independently bound workflow. */
+  videoRatioControl?: "template";
   voices?: { title: string; voice: string }[];
   /** 模型专属的 form-create JSON 规则，节点表单值作为 request.other 传入。 */
   rules?: TRules;
