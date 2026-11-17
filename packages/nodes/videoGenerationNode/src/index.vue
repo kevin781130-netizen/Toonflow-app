@@ -430,7 +430,7 @@ function getConfig() {
       other: data.value.other,
     },
     models: models.value,
-    ratios: ratioOptions,
+    ratios: selectedModel.value?.videoRatioControl === "template" ? [] : ratioOptions,
     matchingModes: matchingModes.value,
   };
 }
