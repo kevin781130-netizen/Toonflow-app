@@ -481,6 +481,7 @@ nodeTools.register({
     data.value.model = getNodeModelKey(choice);
     data.value.duration = duration;
     data.value.resolution = resolution;
+    if (args.ratio !== undefined && choice.videoRatioControl === "template") throw new Error("当前模型的画面比例由工作流模板决定，不支持更改比例");
     if (args.ratio !== undefined) data.value.ratio = args.ratio;
     if (args.mode !== undefined) data.value.mode = JSON.stringify(args.mode);
     if (args.generateAudio !== undefined) data.value.generateAudio = args.generateAudio;
