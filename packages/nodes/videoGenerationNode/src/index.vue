@@ -424,7 +424,7 @@ function getConfig() {
       modelId: selectedModel.value?.modelId ?? "",
       duration: data.value.duration,
       resolution: data.value.resolution,
-      ratio: data.value.ratio,
+      ratio: selectedModel.value?.videoRatioControl === "template" ? undefined : data.value.ratio,
       mode: selectedMode.value,
       generateAudio: data.value.generateAudio,
       other: data.value.other,
