@@ -262,7 +262,7 @@ function getGenerationInput(prompt: string): Omit<NodeVideoRequest, "directory">
     mode: selectedMode.value,
     duration: data.value.duration,
     resolution: data.value.resolution || undefined,
-    ratio: data.value.ratio,
+    ratio: choice.videoRatioControl === "template" ? undefined : data.value.ratio,
     generateAudio: choice.audio === "optional" ? data.value.generateAudio : choice.audio,
     other: Object.keys(data.value.other).length ? { ...data.value.other } : undefined,
     outputDirectory: `assets/${id}`,
