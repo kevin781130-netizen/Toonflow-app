@@ -562,6 +562,9 @@ export async function loadMediaProviderSource(source: string, config: Record<str
   const context = createContext({
     Buffer, atob, btoa, URL, URLSearchParams, TextEncoder, TextDecoder, Blob,
     AbortController, AbortSignal, setTimeout, clearTimeout,
+    // WebCrypto supplies a standards-based SHA-256 digest to isolated providers;
+    // never inject node:crypto module or file-system access.
+    crypto: webcrypto,
   }, { codeGeneration: { strings: false, wasm: false } });
   const rejectImport = () => { throw new Error("供应商不能导入模块，请使用 this.tool 中的宿主工具"); };
   const module = new SourceTextModule(providerTranspiler.transformSync(source), {
